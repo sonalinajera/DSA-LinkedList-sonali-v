@@ -1,9 +1,14 @@
-//insertFirst, insertLast, remove, find
 class _Node {
   constructor(value, next) {
-    this.value = value;
-    this.next = next; 
-    // this.end = 
+      this.value = value;
+      this.next = next;
+  }
+}
+
+//insertFirst, insertLast, remove, find
+class LinkedList {
+  constructor() {
+      this.head = null;
   }
   insertFirst(item) {
     this.head = new _Node(item, this.head)
@@ -69,3 +74,5 @@ class _Node {
     previousNode.next = currNode.next; 
   }
 }
+
+module.exports = LinkedList; 
