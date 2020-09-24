@@ -1,19 +1,33 @@
 class _Node {
-  constructor(value, next) {
+  constructor(value, next = null) {
       this.value = value;
       this.next = next;
+      
   }
 }
-
-//insertFirst, insertLast, remove, find
 class LinkedList {
-  constructor() {
-      this.head = null;
+  constructor(item) {
+      this.head = new _Node(item);
+      this.last = this.head;
+
+      
   }
   insertFirst(item) {
     this.head = new _Node(item, this.head)
   }
-  insertLast(item) {
+  length = ()=>
+  {
+    let count = 0;
+    let node = this.head;
+    while(node.next)
+    {
+      count ++;
+      node = node.next;
+
+    }
+    return count;
+  }
+  /*insertLast(item) {
     // check if the linked list is empty
     if (this.head === null) {
       this.insertFirst(item)
@@ -26,6 +40,11 @@ class LinkedList {
        }
        startingPoint.next = new _Node(item, null)
     }
+  }*/
+  insertLast(item)
+  {
+    this.last.next = new _Node(item, null);
+    this.last = this.last.next;
   }
   find(value) {
     //start at head
