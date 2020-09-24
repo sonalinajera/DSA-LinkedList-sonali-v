@@ -1,19 +1,30 @@
 class _Node {
-  constructor(value, next = null) {
+  constructor(value, next = null, previous = null) {
       this.value = value;
       this.next = next;
+      this.previous = previous;
       
   }
 }
 class LinkedList {
-  constructor(item) {
-      this.head = new _Node(item);
-      this.last = this.head;
+  constructor() {
+      this.head = null;
+      this.last = null;
 
       
   }
   insertFirst(item) {
-    this.head = new _Node(item, this.head)
+    if(this.head)
+    {
+      this.head = new _Node(item, this.head, null)
+      this.head.next.previous = this.head;
+    }
+    else
+    {
+      this.head = new _Node(item, null, null)
+      this.last = this.head;
+    }
+    
   }
   length = ()=>
   {
@@ -43,10 +54,39 @@ class LinkedList {
   }*/
   insertLast(item)
   {
-    this.last.next = new _Node(item, null);
-    this.last = this.last.next;
+    if(this.last)
+    {
+      this.last.next = new _Node(item, null, this.last);
+      this.last = this.last.next;
+    }
+    else
+    {
+      this.head = new _Node(item, null, null);
+      this.last = this.head;
+    }
+    
   }
-  find(value) {
+  insertAt(index, item)
+  {
+    let node = this.head;
+    let i = 0;
+    while(i < index)
+    {
+      
+      node = node.next
+      i++;
+      if(i < index && !node)
+      {
+        return -1;
+      }
+      else if(i == index)
+      {
+        node.value = item;
+        return i;
+      }
+    }
+  }
+  find(item) {
     //start at head
     let currNode = this.head;
     //if empty
@@ -64,7 +104,44 @@ class LinkedList {
     }
     return currNode; 
   }
+  findPrev(item) {
+    return this.find(item).previous;
+  }
+  findByIndex(index)
+  {
+    let node = this.head;
+    let i = 0;
+    while(i <= index && node)
+    {
 
+      if(i == index)
+      {
+        return node;
+      }
+      node = node.next;
+      i++;
+    }
+    return -1;
+  }
+  insertAfter(search, item)
+  {
+    let ref = this.find(search)
+    let next = ref.next;
+    ref.next = new _Node(item, next, ref);
+  }
+  insertBefore(search, item)
+  {
+    let ref = this.find(search)
+    let previous = ref.previous;
+    previous.next = new _Node(item,ref,previous);
+  }
+  pop()
+  {
+    let node = this.last;
+    this.last = node.previous
+    this.last.next = null;
+    return node;
+  }
   remove(item) {
     // if the list if empty
     if (!this.head) {
